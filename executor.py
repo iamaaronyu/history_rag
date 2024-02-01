@@ -27,6 +27,7 @@ from llama_index.schema import BaseNode, ImageNode, MetadataMode
 
 from custom.history_sentence_window import HistorySentenceWindowNodeParser
 from custom.llms.QwenLLM import QwenUnofficial
+from custom.llms.zhipuai_llm import ZhipuAILLM
 
 from pymilvus import MilvusClient
 
@@ -109,6 +110,8 @@ class MilvusExecutor(Executor):
         # 使用Qwen 通义千问模型
         if config.llm.name == "qwen":
             llm = QwenUnofficial(temperature=config.llm.temperature, model=config.llm.name, max_tokens=2048)
+        elif config.llm.name == "zhipuai":
+            llm = ZhipuAILLM(model="chatglm_turbo", temperature=config.llm.temperature, top_p=0.1, zhipuai_api_key='')
         else:
             llm = OpenAI(temperature=config.llm.temperature, model=config.llm.name, max_tokens=2048)
 
